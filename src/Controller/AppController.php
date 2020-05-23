@@ -27,6 +27,17 @@ class AppController extends AbstractController
         // We get all the roles from the database
         $roles = $this->em->getRepository(Role::class)->findAll();
 
+        if(count($roles) == 0)
+        {
+            $role = new Role;
+            $role->setImagePath("img/roles/1.png");
+            $roles[] = $role;
+            $roles[] = $role;
+            $roles[] = $role;
+            $roles[] = $role;
+            $roles[] = $role;
+        }
+
         // We return the HomePage
         return $this->render('homepage.html.twig',  ['roles' => $roles]);
     }
