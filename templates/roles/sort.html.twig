@@ -18,24 +18,18 @@
     <!-- Buttons -->
     <div class="container row center">
     
-        <div class="col s4 zoom">
-            <a class="waves-effect waves-light btn" style="background-color: rgb(123, 27, 36)" href="{{ path('role_sort') }}?sortBy=1">
-                <i class="material-icons left">flag</i>
-                Faction
-            </a>
-        </div>
     
-        <div class="col s4 zoom">
-            <a class="waves-effect waves-light btn" style="background-color: rgb(123, 27, 36)" href="{{ path('role_sort') }}?sortBy=0">
+        <div class="col s6 zoom">
+            <a class="waves-effect waves-light btn-large" style="background-color: rgb(123, 27, 36)" href="{{ path('role_sort') }}?sortBy=0">
                 <i class="material-icons left">select_all</i>
                 Voir tout
             </a>
         </div>
-    
-        <div class="col s4 zoom">
-            <a class="waves-effect waves-light btn" style="background-color: rgb(123, 27, 36)" href="{{ path('role_sort') }}?sortBy=2">
-                <i class="material-icons left">wb_sunny</i>
-                Horaire Effet
+
+        <div class="col s6 zoom">
+            <a class="waves-effect waves-light btn-large" style="background-color: rgb(123, 27, 36)" href="{{ path('role_sort') }}?sortBy=1">
+                <i class="material-icons left">flag</i>
+                Faction
             </a>
         </div>
 
@@ -82,24 +76,16 @@
                 {% else %}
                 
                     <!-- else : there was 0 Role, so we display an error message instead -->
-
-                    <div class="col s12">
-                        <div class="card lg-black-background">
-                            
-                            <div class="card-content">
-                                <h3>Erreur...</h3>
-                                <h5 class="center">
-                                    Il n'y a pas de Rôle à afficher...
-                                    <br>
-                                    Désolé pour cet inconvénient :'(
-                                </h5>
-                            </div>
-
-                        </div>
-                    </div>
+                    {% include 'components/errorNoRole.html.twig' %}
 
                 {% endfor %}
             </div>
+
+
+            {% else %}
+            
+                <!-- else : there was 0 category found -->
+                {% include 'components/errorNoRole.html.twig' %}
 
         {% endfor %}
     </div>

@@ -24,8 +24,17 @@ class RoleController extends AbstractController
      */
     public function sort(Request $request): Response
     {
+        $allowed = [0, 1];
         $sortBy = $request->query->get('sortBy');
+        $data = [];
         
+        // If the user tries to sort by an unallowed criteria : ERROR
+        if($sortBy != null && !in_array($sortBy, $allowed))
+        {
+            throw $this->createNotFoundException("You cannot sort Roles by this !");
+        }
+
+        // Default case : get all Roles
         if($sortBy == null || $sortBy == 0)
         {
             // We get all the roles from the database
@@ -38,7 +47,8 @@ class RoleController extends AbstractController
                 "roles" => $roles
             ];
         }
-        else
+        // Sort by Factions
+        elseif($sortBy == 1)
         {
             // Adding faction : Villageois
             $data[] = [
