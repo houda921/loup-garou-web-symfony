@@ -40,14 +40,25 @@ class RoleController extends AbstractController
         }
         else
         {
-            // We get all the roles from the database
-            $roles = $this->em->getRepository(Role::class)->findAll();
-
-            // We put all our data into a single array
+            // Adding faction : Villageois
             $data[] = [
-                "title" => "nope !",
-                "titleColor" => "rgb(0, 255, 0)",
-                "roles" => []
+                "title" => "Villageois",
+                "titleColor" => "#1e88e5",
+                "roles" => $this->em->getRepository(Role::class)->findByField("id_faction", 1)
+            ];
+
+            // Adding faction : Loups-Garou
+            $data[] = [
+                "title" => "Loups-Garou",
+                "titleColor" => "#7b1b24",
+                "roles" => $this->em->getRepository(Role::class)->findByField("id_faction", 2)
+            ];
+
+            // Adding faction : Indépendants
+            $data[] = [
+                "title" => "Indépendants",
+                "titleColor" => "#1de9b6",
+                "roles" => $this->em->getRepository(Role::class)->findByField("id_faction", 3)
             ];
         }
 
