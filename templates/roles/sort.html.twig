@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %} {{ parent() }} - Rôles {% endblock %}
+
+
+{% block body %}
+<br><br><br>
+
+
+    <!-- Title -->
+    <h1 class="container bold"> Rôles </h1>
+
+
+    <br><br><br>
+
+
+    <!-- Buttons -->
+    <div class="container row center">
+    
+        <div class="col s4 zoom">
+            <a class="waves-effect waves-light btn" style="background-color: rgb(123, 27, 36)" href="">
+                <i class="material-icons left">flag</i>
+                Faction
+            </a>
+        </div>
+    
+        <div class="col s4 zoom">
+            <a class="waves-effect waves-light btn" style="background-color: rgb(123, 27, 36)" href="">
+                <i class="material-icons left">select_all</i>
+                Voir tout
+            </a>
+        </div>
+    
+        <div class="col s4 zoom">
+            <a class="waves-effect waves-light btn" style="background-color: rgb(123, 27, 36)" href="">
+                <i class="material-icons left">wb_sunny</i>
+                Horaire Effet
+            </a>
+        </div>
+
+    </div>
+
+
+    <br><br><br>
+
+
+    <!-- Show all Roles -->
+    <div class="container">
+        {% for array in data %}
+
+            <!-- title of the current set -->
+            <h2 style="color: {{ array.titleColor }}"> {{ array.title }} </h2>
+
+            <!-- all the Roles within the set -->
+            <div class="row">
+                {% for role in array.roles %}
+
+                    <div class="col s3 smallZoom">
+                        <div class="card" style="background-color: inherit">
+                            
+                            <div class="card-image">
+                                <img class="activator" src="{{ role.imagePath }}" width="250" height="250">
+                            </div>
+
+                            <div class="card-content">
+                                <span class="card-title activator center white-text">
+                                    {{ role.name[:10] }}
+                                    <i class="material-icons right">more_vert</i>
+                                </span>
+                            </div>
+
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">
+                                    {{ role.name }}
+                                    <i class="material-icons right">close</i>
+                                </span>
+                                <p>{{ role.description | raw }}</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+{% endblock %}

@@ -28,7 +28,7 @@ class Role
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=510)
      */
     private $description;
 

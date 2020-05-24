@@ -2,3 +2,9 @@
 homepage:
   path: /
   controller: App\Controller\AppController::homepage
+  
+  
+# ROLES
+role_sort:
+  path: /roles
+  controller: App\Controller\RoleController::sort
