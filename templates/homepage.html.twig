@@ -5,7 +5,9 @@
     <div class="container smallZoom">
         <div class="carousel">
             {% for role in roles %}
-                <a class="carousel-item" href="#"><img class="zoom" src="{{ role.imagePath }}"></a>
+                <a class="carousel-item" href="#" onmouseover="M.toast({html: 'I am a toast'})">
+                    <img class="zoom" src="{{ role.imagePath }}">
+                </a>
             {% endfor %}
         </div>
     </div>
