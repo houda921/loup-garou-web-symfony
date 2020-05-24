@@ -5,8 +5,8 @@
     <div class="container smallZoom">
         <div class="carousel">
             {% for role in roles %}
-                <a class="carousel-item" href="#" onmouseover="M.toast({html: 'I am a toast'})">
-                    <img class="zoom" src="{{ role.imagePath }}">
+                <a class="carousel-item tooltipped" data-position="bottom" data-tooltip="{{ role.name }}">
+                    <img class="smallZoom" src="{{ role.imagePath }}">
                 </a>
             {% endfor %}
         </div>
@@ -31,7 +31,11 @@
 
 {% block javascripts %}
     <script>
-        $(document).ready( function() { $('.carousel').carousel(); } );
+        // Or with jQuery
+        $(document).ready(function(){
+            $('.tooltipped').tooltip({enterDelay: 400});
+        });
+
 
         $('.carousel').carousel();
         autoplay();
