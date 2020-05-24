@@ -50,20 +50,24 @@
                 {% for role in array.roles %}
 
                     <div class="col s12 m6 l3 smallZoom">
+                        <!-- Card -->
                         <div class="card" style="background-color: inherit">
-                            
+
+                            <!-- Image -->
                             <div class="card-image">
-                                <img class="activator" src="{{ role.imagePath }}" width="250" height="250">
+                                <img class="activator pointer" src="{{ role.imagePath }}" width="250" height="250">
                             </div>
 
+                            <!-- Name -->
                             <div class="card-content">
-                                <h6 class="activator center" style="font-weight: 600;color: {{ array.titleColor }}">
+                                <h6 class="activator pointer center" style="font-weight: 600;color: {{ array.titleColor }}">
                                     {{ role.name }}
                                 </h6>
                             </div>
 
+                            <!-- Hidden content (click to reveal) -->
                             <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">
+                                <span class="card-title" style="color: {{ role.getFactionColor }}">
                                     {{ role.name }}
                                     <i class="material-icons right">close</i>
                                 </span>

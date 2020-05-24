@@ -1,3 +1,4 @@
+/* Font */
 @font-face
 {
   font-family: Montserrat;
@@ -9,12 +10,17 @@
     font-family: Montserrat;
 }
 
+/* Header */
 h1, h2, h3
 {
     color:#7b1b24;
     text-align: center;
 }
 
+/* Changes the mouse's cursor on Pointer */
+.pointer { cursor: pointer }
+
+/* Colors */
 .lg-red  { color:rgb(123, 27, 36); }
 .lg-red-on-hover:hover  { color:rgb(123, 27, 36); }
 .lg-black { color:rgb(2, 5, 12); }

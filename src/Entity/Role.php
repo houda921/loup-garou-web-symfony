@@ -124,4 +124,26 @@ class Role
 
         return $this;
     }
+
+
+
+    public function getFactionColor(): ?string
+    {
+        switch($this->id_faction)
+        {
+            case 1:
+                return "#1e88e5";
+            break;
+
+            case 2:
+                return "#7b1b24";
+            break;
+
+            case 3:
+                return "#1de9b6";
+            break;
+        }
+
+        return "#00FF00";
+    }
 }
