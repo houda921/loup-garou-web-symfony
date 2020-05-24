@@ -1,17 +1,16 @@
 <!-- NavBar  -->
 <nav class="lg_red_background" role="navigation">
-  <div class="nav-wrapper container"><a id="logo-container" href="{{ path('homepage') }}" class="zoom brand-logo">Loup-Garou</a>
+  <div class="nav-wrapper container">
+    
+    <!-- Logo -->
+    <a id="logo-container" href="{{ path('homepage') }}" class="smallZoom brand-logo">Loup-Garou</a>
+    
+    <!-- Navbar's item -->
     <ul class="right hide-on-med-and-down">
       <li>
           <a class="smallZoom" href="#">
               <i class="material-icons left">search</i>
               Voir les Rôles
-          </a>
-      </li>
-      <li>
-          <a class="smallZoom" href="#">
-              <i class="material-icons left">person_add</i>
-              Ajouter Rôles
           </a>
       </li>
       <li>
@@ -26,32 +25,54 @@
               Analyse des Résultats
           </a>
       </li>
+      <li>
+          <a class="smallZoom" href="#">
+              <i class="material-icons left">account_circle</i>
+              Mon Profil
+          </a>
+      </li>
     </ul>
 
-    <ul id="nav-mobile" class="sidenav">
-      <li><a href="#">Navbar Link</a></li>
-    </ul>
-    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <!-- Navbar's toggle for the side navbar -->
+    <a href="#" data-target="side-navbar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
   </div>
 </nav>
 
-<ul class="sidenav" id="mobile-demo">
-    <li><a href="sass.html">Sass</a></li>
-    <li><a href="badges.html">Components</a></li>
-    <li><a href="collapsible.html">Javascript</a></li>
-    <li><a href="mobile.html">Mobile</a></li>
+<!-- Side navbar -->
+<ul class="sidenav" id="side-navbar">
+      <li>
+          <a class="smallZoom" href="#">
+              <i class="material-icons left">search</i>
+              Voir les Rôles
+          </a>
+      </li>
+      <li>
+          <a class="smallZoom" href="#">
+              <i class="material-icons left">fiber_new</i>
+              Nouvelle Partie
+          </a>
+      </li>
+      <li>
+          <a class="smallZoom" href="#">
+              <i class="material-icons left">archive</i>
+              Analyse des Résultats
+          </a>
+      </li>
+      <li>
+          <a class="smallZoom" href="#">
+              <i class="material-icons left">account_circle</i>
+              Mon Profil
+          </a>
+      </li>
 </ul>
+    
 
-<!-- Compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-<!-- Compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-            
+<!-- Allows Jquery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.sidenav');
-    var instances = M.Sidenav.init(elems, options);
+  // Or with jQuery
+  $(document).ready(function(){
+    $('.sidenav').sidenav();
   });
-</script>
+  </script>
