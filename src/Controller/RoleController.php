@@ -22,20 +22,34 @@ class RoleController extends AbstractController
     /**
      * Page the user first sees
      */
-    public function sort(): Response
+    public function sort(Request $request): Response
     {
-        // We get all the roles from the database
-        $roles = $this->em->getRepository(Role::class)->findAll();
-
+        $sortBy = $request->query->get('sortBy');
         
-        $smallArray = [
-                        "title" => "Tous les Rôles",
-                        "titleColor" => "rgb(255, 255, 255)",
-                        "roles" => $roles
-                    ];
+        if($sortBy == null || $sortBy == 0)
+        {
+            // We get all the roles from the database
+            $roles = $this->em->getRepository(Role::class)->findAll();
 
-        
-        $data[] = $smallArray;
+            // We put all our data into a single array
+            $data[] = [
+                "title" => "Tous les Rôles",
+                "titleColor" => "rgb(255, 255, 255)",
+                "roles" => $roles
+            ];
+        }
+        else
+        {
+            // We get all the roles from the database
+            $roles = $this->em->getRepository(Role::class)->findAll();
+
+            // We put all our data into a single array
+            $data[] = [
+                "title" => "nope !",
+                "titleColor" => "rgb(0, 255, 0)",
+                "roles" => []
+            ];
+        }
 
         // We return the HomePage
         return $this->render('roles/sort.html.twig',  ['data' => $data]);
