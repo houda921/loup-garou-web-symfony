@@ -13,7 +13,7 @@
 /* Header */
 h1, h2, h3
 {
-    color:#7b1b24;
+    color:rgb(123, 27, 36);
     text-align: center;
 }
 
@@ -26,12 +26,9 @@ h1, h2, h3
 .lg-black { color:rgb(2, 5, 12); }
 
 .lg-red-background  { background-color:rgb(123, 27, 36); }
-.lg-black-background {
-    background-color: #000000;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg fill-opacity='0.13'%3E%3Cpolygon fill='%23220000' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%23440000' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%23660000' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%23880000' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%23A00' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E");
-    background-attachment: fixed;
-    background-size: cover;
-}
+.lg-black-background { background-color: rgb(2, 5, 12); }
+
+.transparent-white-background { background-color: rgba(255, 255, 255, 0.25); }
 
 body, html
 {
@@ -59,4 +56,81 @@ body, html
 
 .hover-bold:hover {
     font-weight: bold;
-  }
+}
+
+
+/* TABLE */
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
+
+thead tr {
+    background-color: rgba(123, 27, 36, 0.5);
+}
+tbody tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.33);
+}
+tbody tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.66);
+}
+
+/* TABS */
+.tabs .indicator {
+    background-color: rgb(255, 255, 255) !important;
+}
+.tabs .tab a.active {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(185, 41, 54) !important;
+}
+  
+.tabs .tab a:hover {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(154, 34, 54)  !important;
+}
+  
+.tabs .tab a {
+    color: rgb(155, 155, 155) !important;
+    background-color: rgb(123, 27, 36) !important;
+}
+
+
+
+/* FORMS */
+/* label color */
+.input-field label {
+    color: #000 !important;
+}
+/* label focus color */
+.input-field input:focus + label {
+    color: rgb(123, 27, 36) !important;
+}
+/* label underline focus color */
+.input-field input:focus {
+    border-bottom: 1px solid rgb(123, 27, 36) !important;
+    box-shadow: 0 1px 0 0 rgb(123, 27, 36) !important;
+}
+/* valid color */
+.input-field input.valid {
+    border-bottom: 1px solid #4db6ac !important;
+    box-shadow: 0 1px 0 0 #4db6ac !important;
+}
+/* invalid color */
+.input-field input.invalid {
+    border-bottom: 1px solid rgb(185, 41, 54) !important;
+    box-shadow: 0 1px 0 0 rgb(185, 41, 54) !important;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: rgb(123, 27, 36) !important;
+}
+
+
+button, a .btn, a .btn-small, a .btn-large  {
+    background-color: rgb(123, 27, 36) !important;
+}

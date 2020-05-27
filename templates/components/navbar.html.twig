@@ -1,3 +1,6 @@
+{% set userID = app.session.get('userID') %}
+{% set isAdmin = app.session.get('isAdmin') %}
+
 <!-- NavBar  -->
 <nav class="lg-red-background" role="navigation">
   <div class="nav-wrapper container">
@@ -7,30 +10,31 @@
     
     <!-- Navbar's item -->
     <ul class="right hide-on-med-and-down">
-      <li>
-          <a class="smallZoom" href="{{ path('role_sort') }}">
-              <i class="material-icons left">search</i>
-              Voir les Rôles
-          </a>
-      </li>
-      <li>
-          <a class="smallZoom" href="#">
-              <i class="material-icons left">fiber_new</i>
-              Nouvelle Partie
-          </a>
-      </li>
-      <li>
-          <a class="smallZoom" href="#">
-              <i class="material-icons left">archive</i>
-              Analyse des Résultats
-          </a>
-      </li>
-      <li>
-          <a class="smallZoom" href="#">
-              <i class="material-icons left">account_circle</i>
-              Mon Profil
-          </a>
-      </li>
+        <li>
+            <a class="smallZoom" href="{{ path('role_sort') }}">
+                <i class="material-icons left">search</i>
+                Voir les Rôles
+            </a>
+        </li>
+        <li>
+            <a class="smallZoom" href="{{ path('party_lobby') }}">
+                <i class="material-icons left">fiber_new</i>
+                Nouvelle Partie
+            </a>
+        </li>
+        <li>
+            <a class="smallZoom" href="#">
+                <i class="material-icons left">archive</i>
+                Analyse des Résultats
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-trigger" data-target="navbar-dropdown">
+                <i class="material-icons left">account_circle</i>
+                <i class="material-icons right">arrow_drop_down</i>
+                Mon Profil
+            </a>
+        </li>
     </ul>
 
     <!-- Navbar's toggle for the side navbar -->
@@ -40,32 +44,45 @@
 
 <!-- Side navbar -->
 <ul class="sidenav" id="side-navbar">
-      <li>
-          <a class="smallZoom lg-red-on-hover hover-bold" href="{{ path('role_sort') }}">
-              <i class="material-icons left">search</i>
-              Voir les Rôles
-          </a>
-      </li>
-      <li>
-          <a class="smallZoom lg-red-on-hover hover-bold" href="#">
-              <i class="material-icons left">fiber_new</i>
-              Nouvelle Partie
-          </a>
-      </li>
-      <li>
-          <a class="smallZoom lg-red-on-hover hover-bold" href="#">
-              <i class="material-icons left">archive</i>
-              Analyse des Résultats
-          </a>
-      </li>
-      <li>
-          <a class="smallZoom lg-red-on-hover hover-bold" href="#">
-              <i class="material-icons left">account_circle</i>
-              Mon Profil
-          </a>
-      </li>
+    <li>
+        <a class="smallZoom lg-red-on-hover hover-bold" href="{{ path('role_sort') }}">
+            <i class="material-icons left">search</i>
+            Voir les Rôles
+        </a>
+    </li>
+    <li>
+        <a class="smallZoom lg-red-on-hover hover-bold" href="#">
+            <i class="material-icons left">fiber_new</i>
+            Nouvelle Partie
+        </a>
+    </li>
+    <li>
+        <a class="smallZoom lg-red-on-hover hover-bold" href="#">
+            <i class="material-icons left">archive</i>
+            Analyse des Résultats
+        </a>
+    </li>
+    <li>
+        <a class="smallZoom lg-red-on-hover hover-bold dropdown-trigger" data-target="navbar-dropdown">
+            <i class="material-icons left">account_circle</i>
+            <i class="material-icons right">arrow_drop_down</i>
+            Mon Profil
+        </a>
+    </li>
 </ul>
     
+<!-- Dropdown Structure -->
+<ul id="navbar-dropdown" class="dropdown-content">
+    {% if userID is defined and userID == 0 %}
+        <li><a href="{{ path('account_connection') }}#login">Se Connecter</a></li>
+        <li><a href="{{ path('account_connection') }}#signin">Créer Profil</a></li>
+    {% else %}
+        <li><a href="#!">one</a></li>
+        <li><a href="#!">two</a></li>
+        <li class="divider"></li>
+        <li><a href="{{ path('account_logout') }}">Déconnexion</a></li>
+    {% endif %}
+</ul>
 
 <!-- Allows Jquery -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -74,5 +91,9 @@
   // Or with jQuery
   $(document).ready(function(){
     $('.sidenav').sidenav();
+    $(".dropdown-trigger").dropdown({
+        hover: false,
+        coverTrigger: false
+    });
   });
   </script>

@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ parent() }} - Connection {% endblock %}
+
+{% block body %}
+    
+    <br><br>
+
+    <!-- Title -->
+    <h1 class="container bold"> Connexion à mon profil </h1>
+
+
+    <br><br>
+    <div class="container">
+        <div class="card" style="z-index:1;background-color: rgba(255, 255, 255, 0.75);">
+            <!-- Tabs -->
+            <ul class="tabs tabs-fixed-width">
+                <li class="tab bold"><a href="#login">Login</a></li>
+                <li class="tab bold"><a href="#signin">Sign in</a></li>
+            </ul>
+
+            <!-- Tab content : LOGIN -->
+            <div id="login">
+                <form  method="post" class="container">
+
+                    <!-- Hidden CSRF token -->
+                    <input hidden type="text" name="token" value="{{ csrf_token('account_login') }}">
+
+                    <br>
+                    
+                    <!-- Username -->
+                    <div class="input-field">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="username" name="username" type="text" class="validate" required>
+                        <label for="username">Username</label>
+                    </div>
+
+                    <br>
+                    
+                    <!-- Password -->
+                    <div class="input-field">
+                        <i class="material-icons prefix">security</i>
+                        <input id="password" name="password" type="password" class="validate" required>
+                        <label for="password">Password</label>
+                    </div>
+
+                    <br><br>
+
+                    <div style="text-align: center;">
+                        <button class="btn-large smallZoom" type="submit">
+                            Log in !
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+
+                    {% if errorMessageLogin is defined %}
+                        <br><br>
+                        <h4 class="lg-red center"> {{ errorMessageLogin }} </h4>
+                    {% endif %}
+                </form>
+            </div>
+
+            <!-- Tab content : SIGN IN -->
+            <div id="signin">
+                <form  method="post" class="container">
+
+                    <!-- Hidden CSRF token -->
+                    <input hidden type="text" name="token" value="{{ csrf_token('account_signin') }}">
+
+                    <br>
+                    
+                    <!-- Username -->
+                    <div class="input-field">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="username" name="username" type="text" class="validate" required>
+                        <label for="username">Username</label>
+                    </div>
+                    
+                    <br>
+                    
+                    <!-- Email -->
+                    <div class="input-field">
+                        <i class="material-icons prefix">email</i>
+                        <input id="email" name="email" type="email" class="validate" required>
+                        <label for="email">Email</label>
+                    </div>
+
+                    <br>
+                    
+                    <!-- Password -->
+                    <div class="input-field">
+                        <i class="material-icons prefix">security</i>
+                        <input id="password" name="password" type="password" class="validate" required>
+                        <label for="password">Password</label>
+                    </div>
+
+                    <br><br>
+
+                    <div style="text-align: center;">
+                        <button class="btn-large smallZoom" type="submit">
+                            Sign in !
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+
+                    {% if errorMessageSignin is defined %}
+                        <br><br>
+                        <h4 class="lg-red center"> {{ errorMessageSignin }} </h4>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function(){
+            $('.tabs').tabs({swipeable : true});
+        });
+    </script>
+{% endblock %}

@@ -2,9 +2,25 @@
 homepage:
   path: /
   controller: App\Controller\AppController::homepage
-  
-  
+
+
 # ROLES
 role_sort:
   path: /roles
   controller: App\Controller\RoleController::sort
+
+
+# PARTIES
+party_lobby:
+  path: /parties
+  controller: App\Controller\PartyController::show
+
+
+# ACCOUNTS
+account_connection:
+  path: /account/connection
+  controller: App\Controller\AccountController::connection
+
+account_logout:
+  path: /account/logout
+  controller: App\Controller\AccountController::logout
