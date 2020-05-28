@@ -63,7 +63,7 @@
         </a>
     </li>
     <li>
-        <a class="smallZoom lg-red-on-hover hover-bold dropdown-trigger" data-target="navbar-dropdown">
+        <a class="smallZoom lg-red-on-hover hover-bold dropdown-trigger" data-target="navbar-dropdown-sidebar">
             <i class="material-icons left">account_circle</i>
             <i class="material-icons right">arrow_drop_down</i>
             Mon Profil
@@ -71,8 +71,20 @@
     </li>
 </ul>
     
-<!-- Dropdown Structure -->
+<!-- Dropdown Structure for the navbar -->
 <ul id="navbar-dropdown" class="dropdown-content">
+    {% if userID is defined and userID == 0 %}
+        <li><a href="{{ path('account_connection') }}#login">Se Connecter</a></li>
+        <li><a href="{{ path('account_connection') }}#signin">Créer Profil</a></li>
+    {% else %}
+        <li><a href="#!">one</a></li>
+        <li><a href="#!">two</a></li>
+        <li class="divider"></li>
+        <li><a href="{{ path('account_logout') }}">Déconnexion</a></li>
+    {% endif %}
+</ul>
+<!-- Dropdown Structure for the sidebar (for some reasons, I need to declare a 2nd dropdown (with a different ID)) -->
+<ul id="navbar-dropdown-sidebar" class="dropdown-content">
     {% if userID is defined and userID == 0 %}
         <li><a href="{{ path('account_connection') }}#login">Se Connecter</a></li>
         <li><a href="{{ path('account_connection') }}#signin">Créer Profil</a></li>
