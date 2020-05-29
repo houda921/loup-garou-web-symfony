@@ -13,7 +13,16 @@ role_sort:
 # PARTIES
 party_lobby:
   path: /parties
+  controller: App\Controller\PartyController::lobby
+
+party_new:
+  path: /parties/new
+  controller: App\Controller\PartyController::new
+
+party_show:
+  path: /parties/{id<[0-9]+>}
   controller: App\Controller\PartyController::show
+
 
 
 # ACCOUNTS

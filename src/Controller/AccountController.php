@@ -48,7 +48,6 @@ class AccountController extends AbstractController
     {
         // We get the SESSION object
         $session = $this->get('session');
-        $session->set('userID', 0);
         $isLogged = ($session->get('userID') != 0);
 
         // If the user is already logged : error, he cannot access this page
@@ -70,7 +69,7 @@ class AccountController extends AbstractController
             {
                 // We check if the form's entries are valid
                 // Do more verifications if needed :)
-                $isValid = (isset($data["username"]) && isset($data["password"]));
+                $isValid = (isset($data["username"]) && strlen($data["username"]) <= 20 && isset($data["password"]));
                 
                 // If the data entered by the user are invalid : ERROR
                 if (!$isValid)
@@ -101,19 +100,20 @@ class AccountController extends AbstractController
                         // redirect the user to the mainPage
                         return $this->redirectToRoute('homepage');
                     }
-
-                    // If reached : something went wrong with the Login
-                    return $this->render('accounts/connection.html.twig', [
-                        'errorMessageLogin' => $errorMessageLogin,
-                        'activeLogin' => true,
-                        ]);
                 }
+                
+
+                // If reached : something went wrong with the Login
+                return $this->render('accounts/connection.html.twig', [
+                    'errorMessageLogin' => $errorMessageLogin,
+                    'activeLogin' => true,
+                ]);
             }
             elseif( $this->isCsrfTokenValid('account_signin', $data['token']) )
             {
                 // We check if the form's entries are valid
                 // Do more verifications if needed :)
-                $isValid = (isset($data["username"]) && isset($data["email"]) && isset($data["password"]));
+                $isValid = (isset($data["username"]) && strlen($data["username"]) <= 20 && isset($data["email"]) && isset($data["password"]));
                 
                 // If the data entered by the user are invalid : ERROR
                 if (!$isValid)

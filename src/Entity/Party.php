@@ -35,6 +35,11 @@ class Party
      */
     private $players;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $is_open = true;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
@@ -91,6 +96,18 @@ class Party
         if ($this->players->contains($player)) {
             $this->players->removeElement($player);
         }
+
+        return $this;
+    }
+
+    public function getIsOpen(): ?bool
+    {
+        return $this->is_open;
+    }
+
+    public function setIsOpen(bool $is_open): self
+    {
+        $this->is_open = $is_open;
 
         return $this;
     }

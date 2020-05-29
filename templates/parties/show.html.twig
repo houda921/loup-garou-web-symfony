@@ -1,68 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    
-    <br><br>
+{% block title %} {{ parent() }} - {{ party.name }} {% endblock %}
 
-    <!-- Title -->
-    <h1 class="container bold"> Parties </h1>
+{% set userID = app.session.get('userID') %}
 
+{% block body %}   
+        <br><br>
 
-    <br><br>
-
-
-    <!-- Party : New -->
-    <h4 class="container center white-text">Créer une partie...</h4>
-    <br>
-    <div class="container row center"> 
-        <a class="waves-effect waves-light btn-large zoom" style="background-color: rgb(123, 27, 36)" href="#">
-            <i class="material-icons left">fiber_new</i>
-            Créer Nouvelle Partie
-        </a>
-    </div>
-
-
-    <br><br>
-
-
-    <!-- Separator -->
-    <hr class="container" style="height:2px;border-width:0;color:#7b1b24;background-color:#7b1b24">
-
-
-    <br><br>
-
-
-    <!-- Party : Existing ones -->
-    <h4 class="container center white-text">...ou rejoignez-en une !</h3>
-    <br>
-    {% if data|length < 0 %}
-        <table class="container highlight centered responsive-table white-text">
-            
-            <thead>
-            <tr>
-                <th>Nom de la Partie</th>
-                <th>Maître du Jeu</th>
-                <th>Nombre de Joueurs</th>
-            </tr>
-            </thead>
-
-            <tbody>
-                {% for array in data %}
-                    <tr>
-                        <td>{{ array.name }}</td>
-                        <td>{{ array.creator }}</td>
-                        <td>{{ array.player_current }} / {{ array.player_max }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-
-        </table>
-      {% else %}
-        <!-- else : there was 0 party found -->
-        {% include 'components/errorNoParty.html.twig' %}
-      {% endif %}
-
-      <br><br>
+        <!-- Title -->
+        <h1 class="container bold"> {{ party.name }} </h1>
 
 {% endblock %}
 
