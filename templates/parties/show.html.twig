@@ -4,15 +4,62 @@
 
 {% set userID = app.session.get('userID') %}
 
-{% block body %}   
+{% block body %}
         <br><br>
 
         <!-- Title -->
         <h1 class="container bold"> {{ party.name }} </h1>
+
+        <br><br>
+        
+        <form class="container" method="post">
+                <div class="row">
+                {% for role in roles %}
+                        <div class="col s4 m4 l2">
+                                <!-- Picture -->
+                                <a class="modal-trigger" href="#modal_{{ role.name }}">
+                                        <img class="circle responsive-img smallZoom" src="../{{ role.imagePath }}" alt="{{ role.name }}">
+                                </a>
+
+                                <!-- Input -->
+                                <div class="input-field">
+                                        <input id="input_{{ role.name }}" type="number" value="0" class="validate center" style="background-color: rgba(255, 255, 255, 0.125); color: {{ role.getFactionColor }}; text-shadow: 1px 1px #000;">
+                                </div>
+
+                                <!-- Modal : hidden content (display when the image is clicked) -->
+                                <div id="modal_{{ role.name }}" class="modal">
+                                        <div class="modal-content">
+                                                <h4  style="color: {{ role.getFactionColor }}">{{ role.name }}</h4>
+                                                <p>{{ role.description | raw }}</p>
+                                        </div>
+                                </div>
+
+
+                        </div>
+                {% endfor %}
+                </div>
+
+
+                <div class="input-field">
+                        <input type="reset" class="center">
+                </div>
+        </form>
 
 {% endblock %}
 
 
 
 {% block javascripts %}
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems, options);
+  });
+
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('.modal').modal();
+  });
+        </script>
 {% endblock %}

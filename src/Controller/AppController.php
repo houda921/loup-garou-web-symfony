@@ -27,6 +27,9 @@ class AppController extends AbstractController
     {
         // We get all the roles from the database
         $roles = $this->em->getRepository(Role::class)->findAll();
+        
+        // We shuffle the roles to dynamise the display
+        shuffle($roles);
 
         // We return the HomePage
         return $this->render('homepage.html.twig',  ['roles' => $roles]);

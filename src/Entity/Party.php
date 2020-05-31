@@ -25,10 +25,10 @@ class Party
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Account::class, inversedBy="parties_created")
+     * @ORM\ManyToOne(targetEntity=Account::class, inversedBy="parties_admin")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $creator;
+    private $admin;
 
     /**
      * @ORM\ManyToMany(targetEntity=Account::class, inversedBy="parties_playing")
@@ -62,14 +62,14 @@ class Party
         return $this;
     }
 
-    public function getCreator(): ?Account
+    public function getAdmin(): ?Account
     {
-        return $this->creator;
+        return $this->admin;
     }
 
-    public function setCreator(?Account $creator): self
+    public function setAdmin(?Account $admin): self
     {
-        $this->creator = $creator;
+        $this->admin = $admin;
 
         return $this;
     }

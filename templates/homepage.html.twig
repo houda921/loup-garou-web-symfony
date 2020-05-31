@@ -5,7 +5,7 @@
     <div class="container smallZoom">
         <div class="carousel">
             {% for role in roles %}
-                <a class="carousel-item tooltipped" data-position="bottom" data-tooltip="{{ role.name }}">
+                <a class="carousel-item tooltipped" data-position="bottom" href="{{ path('role_sort') }}#{{ role.name }}" data-tooltip="{{ role.name }}">
                     <img class="smallZoom" src="{{ role.imagePath }}">
                 </a>
             {% endfor %}

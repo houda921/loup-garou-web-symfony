@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Account;
 use App\Entity\Party;
+use App\Entity\Role;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -101,20 +102,31 @@ class PartyController extends AbstractController
     /**
      * Display a Party (given the ID in the url)
      * The method automatically searches for a Party of id given accordingly to the route
+     * If no Party could be found, an error 404 will be generated
      */
     public function show(Party $party): Response
     {
-        // If the spaceship was not found (= is null)
-        if( !$party )
-        {
-            throw $this->createNotFoundException('Party #' . $id . ' not found !');
-        }
+        // If the Party is not open
         if( !$party->getIsOpen() )
         {
+            // Throw error
             throw $this->createNotFoundException('Party #' . $id . ' is closed !');
         }
+        
+            // We get all the roles by Faction
+            $roles = $this->em->getRepository(Role::class)->orderByFactions();
 
          //  we return the page displaying a SINGLE Spaceship
-         return $this->render('parties/show.html.twig', compact('party'));
+         return $this->render('parties/show.html.twig',  ['party' => $party, 'roles' => $roles]);
+    }
+
+
+    /**
+     * Display all statistics from finished parties
+     */
+    public function stats(Request $request): Response
+    {
+         //  we return the page displaying the statistics
+         return $this->render('parties/stats.html.twig');
     }
 }

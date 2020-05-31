@@ -23,6 +23,10 @@ party_show:
   path: /parties/{id<[0-9]+>}
   controller: App\Controller\PartyController::show
 
+party_stats:
+  path: /parties/stats
+  controller: App\Controller\PartyController::stats
+
 
 
 # ACCOUNTS

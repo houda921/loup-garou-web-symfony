@@ -12,13 +12,17 @@
 
 
     <!-- Party : New -->
-    <h4 class="container center white-text">Créer une partie...</h4>
-    <br>
-    <div class="container row center"> 
-        <a class="waves-effect waves-light btn-large zoom" style="background-color: rgb(123, 27, 36)" href="{{ path("party_new") }}">
-            <i class="material-icons left">fiber_new</i>
-            Créer Nouvelle Partie
-        </a>
+    <div class="container">
+        <h4 class="center white-text">Créer une partie...</h4>
+
+        <br>
+
+        <div class="center"> 
+            <a class="waves-effect waves-light btn-large zoom" style="background-color: rgb(123, 27, 36)" href="{{ path("party_new") }}">
+                <i class="material-icons left">fiber_new</i>
+                Créer Nouvelle Partie
+            </a>
+        </div>
     </div>
 
 
@@ -33,34 +37,45 @@
 
 
     <!-- Party : Existing ones -->
-    <h4 class="container center white-text">...ou rejoignez-en une !</h3>
-    <br>
-    {% if parties|length > 0 %}
-        <table class="container highlight centered responsive-table white-text">
-            
-            <thead>
-                <tr>
-                    <th>Nom de la Partie</th>
-                    <th>Maître du Jeu</th>
-                    <th>Nombre de Joueurs</th>
-                </tr>
-            </thead>
+    <div class="container">
+        <h4 class="center white-text">...ou rejoignez-en une !</h3>
+        
+        <br>
 
-            <tbody>
-                {% for party in parties %}
+        {% if parties|length > 0 %}
+            <table class="highlight centered responsive-table white-text">
+                
+                <thead>
                     <tr>
-                        <td>{{ party.name }}</td>
-                        <td>{{ party.creator.username }}</td>
-                        <td>{{ party.players|length }} / {{ party.players|length }}</td>
+                        <th>Nom de la Partie</th>
+                        <th>Maître du Jeu</th>
+                        <th>Nombre de Joueurs</th>
+                        <th>Rejoindre</th>
                     </tr>
-                {% endfor %}
-            </tbody>
+                </thead>
 
-        </table>
-      {% else %}
-        <!-- else : there was 0 party found -->
-        {% include 'components/errorNoParty.html.twig' %}
-      {% endif %}
+                <tbody>
+                    {% for party in parties %}
+                        <tr class="pointer" id="{{ party.id }}">
+                            <td>{{ party.name }}</td>
+                            <td>{{ party.admin.username }}</td>
+                            <td>{{ party.players|length }} / {{ party.players|length }}</td>
+                            <td>
+                                <a class="waves-effect btn" href="{{ path('party_show', {'id' : party.id }) }}" style="background-color: rgb(123, 27, 36)">
+                                    <i class="material-icons right">arrow_forward</i>
+                                    Jouer !
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        {% else %}
+            <!-- else : there was 0 party found -->
+            {% include 'components/errorNoParty.html.twig' %}
+        {% endif %}
+    </div>
 
       <br><br>
 
@@ -69,4 +84,11 @@
 
 
 {% block javascripts %}
+    <script>
+        function goTo(id)
+        {
+            const route = "{{ path('party_show', { 'id' : 1 }) }}";
+            document.location.href = route;
+        }
+    </script>
 {% endblock %}

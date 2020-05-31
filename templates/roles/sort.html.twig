@@ -20,7 +20,7 @@
     
     
         <div class="col s6">
-            <a class="waves-effect btn-large zoom"  style="background-color: rgb(123, 27, 36)" href="{{ path('role_sort') }}?sortBy=0">
+            <a class="waves-effect btn-large zoom" style="background-color: rgb(123, 27, 36)" href="{{ path('role_sort') }}?sortBy=0">
                 <i class="material-icons left">select_all</i>
                 Voir tout
             </a>
@@ -51,7 +51,7 @@
 
                     <div class="col s12 m6 l3 smallZoom">
                         <!-- Card -->
-                        <div class="card" style="background-color: inherit">
+                        <div id="{{ role.name }}" class="card hoverable" style="background-color: inherit">
 
                             <!-- Image -->
                             <div class="card-image">
@@ -65,7 +65,7 @@
                                 </h6>
                             </div>
 
-                            <!-- Hidden content (click to reveal) -->
+                            <!-- Modal : Hidden content (click to reveal) -->
                             <div class="card-reveal">
                                 <span class="card-title" style="color: {{ role.getFactionColor }}">
                                     {{ role.name }}

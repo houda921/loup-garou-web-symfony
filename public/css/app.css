@@ -134,3 +134,16 @@ tbody tr:nth-child(even) {
 button, a .btn, a .btn-small, a .btn-large  {
     background-color: rgb(123, 27, 36) !important;
 }
+
+
+td a {
+    height: 100%;
+    width: 100%;
+    display: block;
+  }
+  
+  td {
+    /* Cell styles for demonstration purposes only */
+    border: 1px solid black;
+    width: 10em;
+  }

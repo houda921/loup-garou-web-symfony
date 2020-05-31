@@ -28,6 +28,47 @@ class RoleRepository extends ServiceEntityRepository
         return $this->findBy(["$filter" => "$category"]);
     }
 
+    /**
+    * @return Role[] Returns an array of Role objects, ordered by Faction
+    */
+    public function orderByFactions() : array
+    {
+        return array_merge(
+            $this->findByField("id_faction", 1),
+            $this->findByField("id_faction", 2),
+            $this->findByField("id_faction", 3)
+        );
+    }
+
+    /**
+    * @return Object[][] Returns an array of array, ordered by Faction, each in a different arrays (+ additional data)
+    */
+    public function orderByFactionsArrays() : array
+    {
+        // Adding faction : Villageois
+        $data[] = [
+            "title" => "Villageois",
+            "titleColor" => "#1e88e5",
+            "roles" => $this->findByField("id_faction", 1)
+        ];
+
+        // Adding faction : Loups-Garou
+        $data[] = [
+            "title" => "Loups-Garou",
+            "titleColor" => "#7b1b24",
+            "roles" => $this->findByField("id_faction", 2)
+        ];
+
+        // Adding faction : Indépendants
+        $data[] = [
+            "title" => "Indépendants",
+            "titleColor" => "#1de9b6",
+            "roles" => $this->findByField("id_faction", 3)
+        ];
+
+        return $data;
+    }
+
 
 
     // /**

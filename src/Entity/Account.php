@@ -40,9 +40,9 @@ class Account
     private $is_admin = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Party::class, mappedBy="creator")
+     * @ORM\OneToMany(targetEntity=Party::class, mappedBy="admin")
      */
-    private $parties_created;
+    private $parties_admin;
 
     /**
      * @ORM\ManyToMany(targetEntity=Party::class, mappedBy="players")
@@ -51,7 +51,7 @@ class Account
 
     public function __construct()
     {
-        $this->parties_created = new ArrayCollection();
+        $this->parties_admin = new ArrayCollection();
         $this->parties_playing = new ArrayCollection();
     }
 
@@ -111,28 +111,28 @@ class Account
     /**
      * @return Collection|Party[]
      */
-    public function getPartiesCreated(): Collection
+    public function getPartiesAdmin(): Collection
     {
-        return $this->parties_created;
+        return $this->parties_admin;
     }
 
-    public function addPartiesCreated(Party $partiesCreated): self
+    public function addPartiesAdmin(Party $partiesAdmin): self
     {
-        if (!$this->parties_created->contains($partiesCreated)) {
-            $this->parties_created[] = $partiesCreated;
-            $partiesCreated->setCreator($this);
+        if (!$this->parties_admin->contains($partiesAdmin)) {
+            $this->parties_admin[] = $partiesAdmin;
+            $partiesAdmin->setAdmin($this);
         }
 
         return $this;
     }
 
-    public function removePartiesCreated(Party $partiesCreated): self
+    public function removePartiesAdmin(Party $partiesAdmin): self
     {
-        if ($this->parties_created->contains($partiesCreated)) {
-            $this->parties_created->removeElement($partiesCreated);
+        if ($this->parties_admin->contains($partiesAdmin)) {
+            $this->parties_admin->removeElement($partiesAdmin);
             // set the owning side to null (unless already changed)
-            if ($partiesCreated->getCreator() === $this) {
-                $partiesCreated->setCreator(null);
+            if ($partiesAdmin->getAdmin() === $this) {
+                $partiesAdmin->setAdmin(null);
             }
         }
 

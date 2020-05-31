@@ -6,10 +6,17 @@
   <div class="nav-wrapper container">
     
     <!-- Logo -->
-    <a id="logo-container" href="{{ path('homepage') }}" class="smallZoom brand-logo">Loup-Garou</a>
+    <a id="logo-container" href="{{ path('homepage') }}" class="smallZoom brand-logo hide-on-med-and-down">Loup-Garou</a>
+    <a id="logo-container" href="{{ path('homepage') }}" class="brand-logo show-on-small">Loup-Garou</a>
     
     <!-- Navbar's item -->
     <ul class="right hide-on-med-and-down">
+        <li>
+            <a class="smallZoom" href="{{ path('party_lobby') }}">
+                <i class="material-icons left">games</i>
+                Jouer !
+            </a>
+        </li>
         <li>
             <a class="smallZoom" href="{{ path('role_sort') }}">
                 <i class="material-icons left">search</i>
@@ -17,13 +24,7 @@
             </a>
         </li>
         <li>
-            <a class="smallZoom" href="{{ path('party_lobby') }}">
-                <i class="material-icons left">fiber_new</i>
-                Nouvelle Partie
-            </a>
-        </li>
-        <li>
-            <a class="smallZoom" href="#">
+            <a class="smallZoom" href="{{ path('party_stats') }}">
                 <i class="material-icons left">archive</i>
                 Analyse des Résultats
             </a>
@@ -45,19 +46,19 @@
 <!-- Side navbar -->
 <ul class="sidenav" id="side-navbar">
     <li>
+        <a class="smallZoom lg-red-on-hover hover-bold" href="{{ path('party_lobby') }}">
+            <i class="material-icons left">games</i>
+            Jouer !
+        </a>
+    </li>
+    <li>
         <a class="smallZoom lg-red-on-hover hover-bold" href="{{ path('role_sort') }}">
             <i class="material-icons left">search</i>
             Voir les Rôles
         </a>
     </li>
     <li>
-        <a class="smallZoom lg-red-on-hover hover-bold" href="#">
-            <i class="material-icons left">fiber_new</i>
-            Nouvelle Partie
-        </a>
-    </li>
-    <li>
-        <a class="smallZoom lg-red-on-hover hover-bold" href="#">
+        <a class="smallZoom lg-red-on-hover hover-bold" href="{{ path('party_stats') }}">
             <i class="material-icons left">archive</i>
             Analyse des Résultats
         </a>
