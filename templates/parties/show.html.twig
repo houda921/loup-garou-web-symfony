@@ -3,47 +3,137 @@
 {% block title %} {{ parent() }} - {{ party.name }} {% endblock %}
 
 {% set userID = app.session.get('userID') %}
+{% set roleArray = [] %}
+{% for role in roles %}
+    {% set roleArray = roleArray|merge([{
+            id : role.id,
+            name : role.name,
+            idFaction : role.idFaction,
+            }]) %}
+{% endfor %}
 
 {% block body %}
-        <br><br>
+        {% if userID is defined and userID != 0 %}
+                <br><br>
 
-        <!-- Title -->
-        <h1 class="container bold"> {{ party.name }} </h1>
+                <!-- Title -->
+                <h1 class="container truncate bold"> {{ party.name }} </h1>
 
-        <br><br>
-        
-        <form class="container" method="post">
-                <div class="row">
-                {% for role in roles %}
-                        <div class="col s4 m4 l2">
-                                <!-- Picture -->
-                                <a class="modal-trigger" href="#modal_{{ role.name }}">
-                                        <img class="circle responsive-img smallZoom" src="../{{ role.imagePath }}" alt="{{ role.name }}">
-                                </a>
+                <br><br>
 
-                                <!-- Input -->
-                                <div class="input-field">
-                                        <input id="input_{{ role.name }}" type="number" value="0" class="validate center" style="background-color: rgba(255, 255, 255, 0.125); color: {{ role.getFactionColor }}; text-shadow: 1px 1px #000;">
-                                </div>
-
-                                <!-- Modal : hidden content (display when the image is clicked) -->
-                                <div id="modal_{{ role.name }}" class="modal">
-                                        <div class="modal-content">
-                                                <h4  style="color: {{ role.getFactionColor }}">{{ role.name }}</h4>
-                                                <p>{{ role.description | raw }}</p>
-                                        </div>
-                                </div>
-
-
+                <!-- player's data -->
+                <div class="center-align container">
+                        <!-- Global counters -->
+                        <div class="row">
+                                <h5 class="col s6 white-text">
+                                        <span>Joueurs Connectés :</span>
+                                        <span id="cpt-players">0</span>
+                                </h5>
+                                <h5 class="col s6 white-text">
+                                        <span>Rôles Sélectionnés :</span>
+                                        <span id="cpt-roles">0</span>
+                                </h5>
                         </div>
-                {% endfor %}
+
+                        <!-- Faction counters -->
+                        <div class="row center-align">
+                                <div class="col s4" style="color:#1e88e5">
+                                        <h4>Villageois</h4>
+                                        <h4 id="cpt-faction-1">0</h4>
+                                </div>
+                                <div class="col s4" style="color:#7b1b24">
+                                        <h4>Loups-Garou</h4>
+                                        <h4 id="cpt-faction-2">0</h4>
+                                </div>
+                                <div class="col s4" style="color:#1de9b6">
+                                        <h4>Indépendants</h4>
+                                        <h4 id="cpt-faction-3">0</h4>
+                                </div>
+                        </div>
                 </div>
+                
+                <!-- Form -->
+                <form class="container" method="post">
+                        <!-- Roles -->
+                        <div class="row">
+                                {% for role in roles %}
+                                        <div class="col s4 m3 l2">
+                                                <!-- Picture -->
+                                                <a class="modal-trigger center" href="#modal_{{ role.name }}">
+                                                        <img class="circle responsive-img smallZoom" src="../{{ role.imagePath }}" alt="{{ role.name }}">
+                                                </a>
+                                                
+
+                                                <!-- Input -->
+                                                <div class="row valign-wrapper">
+                                                        <!-- white space -->
+                                                        <div class="col s1"></div>
+
+                                                        <!-- Button : REMOVE -->
+                                                        <a id="remove_{{ role.id }}" class="btn-floating col s3"><i class="material-icons left">remove</i></a>
+                                                        
+                                                        <!-- input field -->
+                                                        <div class="input-field col s4">
+                                                                <input
+                                                                        id="input_{{ role.id }}"
+                                                                        name="{{ role.id }}"
+                                                                        type="number"
+                                                                        value="0"
+                                                                        min="0"
+                                                                        {% if role.isUnique == 1 %}
+                                                                                max="1"
+                                                                        {% endif %}
+                                                                        class="validate"
+                                                                        style="background-color: rgba(255, 255, 255, 0.125); color: {{ role.getFactionColor }}; text-shadow: 1px 1px #000;text-align:center"
+                                                                        disabled>
+                                                        </div>
+                                                        
+                                                        <!-- Button : ADD -->
+                                                        <a id="add_{{ role.id }}" class="btn-floating col s3"><i class="material-icons left">add</i></a>
+                                                
+                                                        <!-- white space -->
+                                                        <div class="col s1"></div>
+                                                </div>
 
 
-                <div class="input-field">
-                        <input type="reset" class="center">
+                                                <!-- Modal : hidden content (display when the image is clicked) -->
+                                                <div id="modal_{{ role.name }}" class="modal">
+                                                        <div class="modal-content">
+                                                                <h4  style="color: {{ role.getFactionColor }}">{{ role.name }}</h4>
+                                                                <p class="flow-text">{{ role.description | raw }}</p>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                {% endfor %}
+                        </div>
+
+
+                        <!-- Button : Reset -->
+                        <div class="input-field">
+                                <input id="reset" type="reset" class="center">
+                        </div>
+                        <!-- Submit -->
+                        <div style="text-align: center;">
+                                <button class="btn-large smallZoom" type="submit">
+                                        Envoyer !
+                                        <i class="material-icons right">send</i>
+                                </button>
+                        </div>
+                </form>
+
+                <br><br>
+        {% else %}
+            <!-- Modal Structure : is activated when a non-logged in user wants to access / create a game -->
+                <div id="modal" class="modal">
+                        <div class="modal-content">
+                                <h4>Vous n'êtes pas connecté !</h4>
+                                <p>Vous devez vous connecter / créer un compte afin de pouvoir rejoindre une partie !</p>
+                        </div>
+                        <div class="modal-footer">
+                                <a href="{{ path("account_connection") }}" class="modal-close waves-effect waves-green btn-flat">Se Connecter</a>
+                        </div>
                 </div>
-        </form>
+        {% endif %}
 
 {% endblock %}
 
@@ -51,15 +141,81 @@
 
 {% block javascripts %}
         <script>
-          document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.modal');
-    var instances = M.Modal.init(elems, options);
-  });
+                // The player is not logged :
+                // We display an error message, and we don't bother to render the rest of the page
+                if({{ userID }} == 0)
+                {
+                        // Modal displaying the error
+                        $(document).ready(function() {
+                                $('.modal').modal();
+                                $('#modal').modal('open'); 
+                        }); 
+                }
+                // The player is logged :
+                // We get the references, and set the corresponding methods
+                else
+                {
+                        // Array containing all the Roles' data
+                        var roles = {{ roleArray|json_encode|raw }};
 
-  // Or with jQuery
 
-  $(document).ready(function(){
-    $('.modal').modal();
-  });
+                        $(document).ready(function() {
+
+                                roles.forEach(role => {
+                                        // We get the associated REMOVE button
+                                        $("#remove_".concat(role.id)).click(function() {
+                                                // We get the corresponding input field
+                                                input = getInput(role);
+
+                                                previousVal = input.value;
+
+                                                // We decrement the input (which checks if it is possible or not)
+                                                input.stepDown();
+
+                                                // If the value changed, we update the counters
+                                                if(previousVal != input.value) {
+                                                        $("#cpt-roles").text(Number($("#cpt-roles").text()) - 1);
+                                                        $("#cpt-faction-".concat(role.idFaction)).text(Number($("#cpt-faction-".concat(role.idFaction)).text()) - 1);
+                                                }
+                                        });
+
+                                        // We get the associated ADD button
+                                        $("#add_".concat(role.id)).click(function() {
+                                                // We get the corresponding input field
+                                                input = getInput(role);
+
+                                                previousVal = input.value;
+
+                                                // We increment the input (which checks if it is possible or not)
+                                                input.stepUp();
+
+                                                // If the value changed, we update the counters
+                                                if(previousVal != input.value) {
+                                                        $("#cpt-roles").text(Number($("#cpt-roles").text()) + 1);
+                                                        $("#cpt-faction-".concat(role.idFaction)).text(Number($("#cpt-faction-".concat(role.idFaction)).text()) + 1);
+                                                }
+                                        });
+                                });
+                                
+                                // We initialize the reset button : sets the factions' counters to 0 when clicked
+                                $('#reset').click(function() {
+                                        // We reset the global role counter
+                                        $("#cpt-roles").text(0);
+
+                                        // We reset all the faction's counters
+                                        for (i = 1; i <= 3; i++) {
+                                                document.getElementById("cpt-faction-".concat(i.toString())).innerHTML = 0;
+                                        }
+                                });
+                        });
+
+
+                        /** Returns the input corresponding to a given role
+                        **/
+                        function getInput(role)
+                        {
+                                return document.getElementById( "input_".concat(role.id) );
+                        }
+                }
         </script>
 {% endblock %}

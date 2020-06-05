@@ -26,21 +26,10 @@ class PartyController extends AbstractController
      */
     public function lobby(Request $request): Response
     {
-        $parties = $this->em->getRepository(Party::class)->findBy([
-            'is_open' => true,
-        ]);
-
-        // We return the correct page
-        return $this->render('parties/lobby.html.twig',  ['parties' => $parties]);
-    }
+        // Just in case : we initialize the error message
+        $errorMessage = "";
 
 
-
-    /**
-     * Creation of a new Party
-     */
-    public function new(Request $request): Response
-    {
         // POST request -> the form was validated, we now perform some validations
         if ($request->isMethod('POST'))
         {
@@ -52,7 +41,7 @@ class PartyController extends AbstractController
             {
                 // We check if the form's entries are valid
                 // Do more verifications if needed :)
-                $isValid = (isset($data["name"]));
+                $isValid = (isset($data["name"]) && strlen($data["name"]) <= 25);
                 
                 // If the data entered by the user are invalid : ERROR
                 if (!$isValid)
@@ -69,7 +58,7 @@ class PartyController extends AbstractController
                     // We create a new Party
                     $newParty = new Party();
                     $newParty->setName( $data["name"] );
-                    $newParty->setCreator( $user );
+                    $newParty->setAdmin( $user );
                     $newParty->addPlayer( $user );
 
                     // We push it into the database
@@ -85,18 +74,22 @@ class PartyController extends AbstractController
             {
                 $errorMessage = "hmm, this unusual... have you ever heard of CSRF ?";
             }
-
-            // If reached : something went wrong with the Login
-            return $this->render('accounts/connection.html.twig', [
-                'errorMessage' => $errorMessage
-                ]);
         }
 
 
-        // The user just arrived on the page :
-        // We return the Creation page
-        return $this->render('parties/new.html.twig');
+        // We get all the parties
+        $parties = $this->em->getRepository(Party::class)->findBy([
+            'is_open' => true,
+        ]);
+
+        // If reached : display the regular page (with a possibly filled error message)
+        return $this->render('parties/lobby.html.twig', [
+            'parties' => $parties,
+            'errorMessage' => $errorMessage
+        ]);
     }
+
+
 
 
     /**
@@ -104,7 +97,7 @@ class PartyController extends AbstractController
      * The method automatically searches for a Party of id given accordingly to the route
      * If no Party could be found, an error 404 will be generated
      */
-    public function show(Party $party): Response
+    public function show(Request $request, Party $party): Response
     {
         // If the Party is not open
         if( !$party->getIsOpen() )
@@ -113,8 +106,18 @@ class PartyController extends AbstractController
             throw $this->createNotFoundException('Party #' . $id . ' is closed !');
         }
         
-            // We get all the roles by Faction
-            $roles = $this->em->getRepository(Role::class)->orderByFactions();
+        
+        // POST request -> the form was validated, we now perform some validations
+        if ($request->isMethod('POST'))
+        {
+            // We get the data
+            $data = $request->request->all();
+            dd($data);
+        }
+
+
+        // We get all the roles by Faction
+        $roles = $this->em->getRepository(Role::class)->orderByFactions();
 
          //  we return the page displaying a SINGLE Spaceship
          return $this->render('parties/show.html.twig',  ['party' => $party, 'roles' => $roles]);

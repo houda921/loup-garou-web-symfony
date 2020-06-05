@@ -20,10 +20,10 @@ class Role
     /**
      * @ORM\Column(type="integer")
      */
-    private $id_faction;
+    private $id_faction = 1;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 
@@ -35,17 +35,17 @@ class Role
     /**
      * @ORM\Column(type="boolean")
      */
-    private $is_unique;
+    private $is_unique = true;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $active_at_night;
+    private $active_at_night = true;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image_path;
+    private $image_path = "roles/DEFAULT.png";
 
 
     public function getId(): ?int

@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %} Loup-Garou {% endblock %}</title>
         {% block stylesheets %}
-            <link rel="icon" type="image/png" href="{{ asset('/img/logo.png') }}"/>
+            <link rel="icon" type="image/png" href="{{ asset('/img/logo.jpg') }}"/>
             <link rel="stylesheet" href="/css/app.css">
         {% endblock %}
         
@@ -33,9 +33,10 @@
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
         
-        <!--JavaScript at end of body for optimized loading-->
+        <!-- JavaScript at end of body for optimized loading -->
         <script type="text/javascript" src="js/materialize.min.js"></script>
-        
+
+
         {% block javascripts %}
         {% endblock %}
     </body>
