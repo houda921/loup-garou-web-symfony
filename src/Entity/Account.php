@@ -37,23 +37,21 @@ class Account
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $is_admin = false;
+    private $is_website_admin = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Party::class, mappedBy="admin")
+     * @ORM\OneToMany(targetEntity=Player::class, mappedBy="account")
      */
-    private $parties_admin;
+    private $players;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Party::class, mappedBy="players")
-     */
-    private $parties_playing;
+
 
     public function __construct()
     {
-        $this->parties_admin = new ArrayCollection();
-        $this->parties_playing = new ArrayCollection();
+        $this->players = new ArrayCollection();
     }
+
+    
 
     public function getId(): ?int
     {
@@ -96,72 +94,44 @@ class Account
         return $this;
     }
 
-    public function getIsAdmin(): ?bool
+    public function GetIsWebsiteAdmin(): ?bool
     {
-        return $this->is_admin;
+        return $this->is_website_admin;
     }
 
-    public function setIsAdmin(?bool $is_admin): self
+    public function setIsWebsiteAdmin(?bool $is_website_admin): self
     {
-        $this->is_admin = $is_admin;
+        $this->is_website_admin = $is_website_admin;
 
         return $this;
     }
 
     /**
-     * @return Collection|Party[]
+     * @return Collection|Player[]
      */
-    public function getPartiesAdmin(): Collection
+    public function getPlayers(): Collection
     {
-        return $this->parties_admin;
+        return $this->players;
     }
 
-    public function addPartiesAdmin(Party $partiesAdmin): self
+    public function addPlayer(Player $player): self
     {
-        if (!$this->parties_admin->contains($partiesAdmin)) {
-            $this->parties_admin[] = $partiesAdmin;
-            $partiesAdmin->setAdmin($this);
+        if (!$this->players->contains($player)) {
+            $this->players[] = $player;
+            $player->setAccount($this);
         }
 
         return $this;
     }
 
-    public function removePartiesAdmin(Party $partiesAdmin): self
+    public function removePlayer(Player $player): self
     {
-        if ($this->parties_admin->contains($partiesAdmin)) {
-            $this->parties_admin->removeElement($partiesAdmin);
+        if ($this->players->contains($player)) {
+            $this->players->removeElement($player);
             // set the owning side to null (unless already changed)
-            if ($partiesAdmin->getAdmin() === $this) {
-                $partiesAdmin->setAdmin(null);
+            if ($player->getAccount() === $this) {
+                $player->setAccount(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Party[]
-     */
-    public function getPartiesPlaying(): Collection
-    {
-        return $this->parties_playing;
-    }
-
-    public function addPartiesPlaying(Party $partiesPlaying): self
-    {
-        if (!$this->parties_playing->contains($partiesPlaying)) {
-            $this->parties_playing[] = $partiesPlaying;
-            $partiesPlaying->addPlayer($this);
-        }
-
-        return $this;
-    }
-
-    public function removePartiesPlaying(Party $partiesPlaying): self
-    {
-        if ($this->parties_playing->contains($partiesPlaying)) {
-            $this->parties_playing->removeElement($partiesPlaying);
-            $partiesPlaying->removePlayer($this);
         }
 
         return $this;

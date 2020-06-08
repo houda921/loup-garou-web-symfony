@@ -6,6 +6,7 @@ use App\Repository\PartyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Player;
 
 /**
  * @ORM\Entity(repositoryClass=PartyRepository::class)
@@ -24,27 +25,26 @@ class Party
      */
     private $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Account::class, inversedBy="parties_admin")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $admin;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Account::class, inversedBy="parties_playing")
-     */
-    private $players;
 
     /**
      * @ORM\Column(type="boolean")
      */
     private $is_open = true;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Player::class, mappedBy="party")
+     */
+    private $players;
+
+
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
     }
 
+
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -62,44 +62,6 @@ class Party
         return $this;
     }
 
-    public function getAdmin(): ?Account
-    {
-        return $this->admin;
-    }
-
-    public function setAdmin(?Account $admin): self
-    {
-        $this->admin = $admin;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Account[]
-     */
-    public function getPlayers(): Collection
-    {
-        return $this->players;
-    }
-
-    public function addPlayer(Account $player): self
-    {
-        if (!$this->players->contains($player)) {
-            $this->players[] = $player;
-        }
-
-        return $this;
-    }
-
-    public function removePlayer(Account $player): self
-    {
-        if ($this->players->contains($player)) {
-            $this->players->removeElement($player);
-        }
-
-        return $this;
-    }
-
     public function getIsOpen(): ?bool
     {
         return $this->is_open;
@@ -110,5 +72,151 @@ class Party
         $this->is_open = $is_open;
 
         return $this;
+    }
+
+    /**
+     * @return Player[]
+     */
+    public function getPlayers()
+    {
+        // We initialize an array
+        $data = [];
+
+        // We iterate through the players
+        foreach ($this->players as $player) {
+            // If the player IS linked to an Account : Add !
+            if($player->getAccount() != null)
+            {
+                $data[] = $player;
+            }
+        }
+        
+        // We return the array
+        return $data;
+    }
+
+    public function addPlayer(Player $player): self
+    {
+        if (!$this->players->contains($player)) {
+            $this->players[] = $player;
+            $player->setParty($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayer(Player $player): self
+    {
+        if ($this->players->contains($player)) {
+            $this->players->removeElement($player);
+            // set the owning side to null (unless already changed)
+            if ($player->getParty() === $this) {
+                $player->setParty(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /** During the setup of a Party, returns all the Roles preconfigured
+     * @return Player[]
+     */
+    public function getSetUpRoles()
+    {
+        // We initialize an array
+        $setUpRoles = [];
+
+        // We iterate through the players
+        foreach ($this->players as $player) {
+            // If the player IS NOT linked to an Account, but ONLY to a role : Add !
+            if($player->getAccount() == null && $player->getRole() != null)
+            {
+                $setUpRoles[] = $player;
+            }
+        }
+
+        // We return the array
+        return $setUpRoles;
+    }
+
+
+    /** During the setup of a Party, returns all the Roles preconfigured
+     * @return Player[]
+     */
+    public function getSetUpRolesByFaction($factionId)
+    {
+        // We get the setup roles
+        $setUpRoles = $this->getSetUpRoles();
+        $byFaction = [];
+
+        foreach ($setUpRoles as $player) {
+            if($player->getRole()->getIdFaction() == $factionId) {
+                $byFaction[] = $player;
+            }
+        }
+
+        // We return the array
+        return $byFaction;
+    }
+
+
+    /** During the setup of a Party, returns all the Accounts preconfigured
+     * @return Player[]
+     */
+    public function getSetUpAccounts()
+    {
+        // We initialize an array
+        $setUpAccounts = [];
+
+        // We iterate through the players
+        foreach ($this->players as $player) {
+            // If the player IS linked to an Account, but NOT to a role : Add !
+            if($player->getAccount() != null && $player->getRole() == null)
+            {
+                $setUpAccounts[] = $player;
+            }
+        }
+
+        // We return the array
+        return $setUpAccounts;
+    }
+
+
+
+    /** Amount of a given role in a party
+     * @return int
+     */
+    public function getCptRole($role): int
+    {
+        // We initialize a counter
+        $cpt = 0;
+
+        // We iterate through the players
+        foreach ($this->players as $player) {
+            if($player->getRole() == $role)
+            {
+                $cpt++;
+            }
+        }
+
+        // We return the counter
+        return $cpt;
+    }
+
+
+    
+    /**
+     * @return Player
+     */
+    public function getAdmin(): Player
+    {
+        foreach ($this->players as $player) {
+            if($player->getIsPartyAdmin()) {
+                return $player;
+            }
+        }
+
+        return null;
     }
 }

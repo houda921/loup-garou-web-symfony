@@ -95,7 +95,7 @@ class AccountController extends AbstractController
                     {
                         // We set some data
                         $session->set('userID', $account->getId());
-                        $session->set('isAdmin', $account->getIsAdmin());
+                        $session->set('isWebsiteAdmin', $account->GetIsWebsiteAdmin());
 
                         // redirect the user to the mainPage
                         return $this->redirectToRoute('homepage');
@@ -156,7 +156,7 @@ class AccountController extends AbstractController
 
                             // We set some data
                             $session->set('userID', $newAccount->getId());
-                            $session->set('isAdmin', false);
+                            $session->set('isWebsiteAdmin', false);
 
                             // redirect the user to the mainPage
                             return $this->redirectToRoute('homepage');

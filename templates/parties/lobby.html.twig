@@ -97,7 +97,7 @@
                     {% for party in parties %}
                         <tr class="pointer" id="{{ party.id }}">
                             <td>{{ party.name }}</td>
-                            <td>{{ party.admin.username }}</td>
+                            <td>{{ party.getAdmin.account.username }}</td>
                             <td>{{ party.players|length }} / {{ party.players|length }}</td>
                             <td>
                                 <a

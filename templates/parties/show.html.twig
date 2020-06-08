@@ -27,27 +27,27 @@
                         <div class="row">
                                 <h5 class="col s6 white-text">
                                         <span>Joueurs Connectés :</span>
-                                        <span id="cpt-players">0</span>
+                                        <span id="cpt-players">{{ party.getSetUpAccounts|length }}</span>
                                 </h5>
                                 <h5 class="col s6 white-text">
                                         <span>Rôles Sélectionnés :</span>
-                                        <span id="cpt-roles">0</span>
+                                        <span id="cpt-roles">{{ party.getSetUpRoles|length }}</span>
                                 </h5>
                         </div>
 
                         <!-- Faction counters -->
                         <div class="row center-align">
                                 <div class="col s4" style="color:#1e88e5">
-                                        <h4>Villageois</h4>
-                                        <h4 id="cpt-faction-1">0</h4>
+                                        <h4 class="truncate">Villageois</h4>
+                                        <h4 id="cpt-faction-1">{{ party.getSetUpRolesByFaction(1)|length }}</h4>
                                 </div>
                                 <div class="col s4" style="color:#7b1b24">
-                                        <h4>Loups-Garou</h4>
-                                        <h4 id="cpt-faction-2">0</h4>
+                                        <h4 class="truncate">Loups-Garou</h4>
+                                        <h4 id="cpt-faction-2">{{ party.getSetUpRolesByFaction(2)|length }}</h4>
                                 </div>
                                 <div class="col s4" style="color:#1de9b6">
-                                        <h4>Indépendants</h4>
-                                        <h4 id="cpt-faction-3">0</h4>
+                                        <h4 class="truncate">Indépendants</h4>
+                                        <h4 id="cpt-faction-3">{{ party.getSetUpRolesByFaction(3)|length }}</h4>
                                 </div>
                         </div>
                 </div>
@@ -60,7 +60,7 @@
                                         <div class="col s4 m3 l2">
                                                 <!-- Picture -->
                                                 <a class="modal-trigger center" href="#modal_{{ role.name }}">
-                                                        <img class="circle responsive-img smallZoom" src="../{{ role.imagePath }}" alt="{{ role.name }}">
+                                                        <img class="circle responsive-img smallZoom" src="../{{ role.imagePath }}" alt="{{ role.name }}"  style="border-style: solid;border-color:{{ role.getFactionColor }}">
                                                 </a>
                                                 
 
@@ -70,7 +70,11 @@
                                                         <div class="col s1"></div>
 
                                                         <!-- Button : REMOVE -->
-                                                        <a id="remove_{{ role.id }}" class="btn-floating col s3"><i class="material-icons left">remove</i></a>
+                                                        <div class="col s3">
+                                                                <a id="remove_{{ role.id }}" class="btn-floating" style="background-color:{{ role.getFactionColor }}">
+                                                                        <i class="material-icons left">remove</i>
+                                                                </a>
+                                                        </div>
                                                         
                                                         <!-- input field -->
                                                         <div class="input-field col s4">
@@ -78,18 +82,22 @@
                                                                         id="input_{{ role.id }}"
                                                                         name="{{ role.id }}"
                                                                         type="number"
-                                                                        value="0"
+                                                                        value="{{ party.getCptRole(role) }}"
                                                                         min="0"
                                                                         {% if role.isUnique == 1 %}
                                                                                 max="1"
                                                                         {% endif %}
                                                                         class="validate"
                                                                         style="background-color: rgba(255, 255, 255, 0.125); color: {{ role.getFactionColor }}; text-shadow: 1px 1px #000;text-align:center"
-                                                                        disabled>
+                                                                        readonly>
                                                         </div>
                                                         
                                                         <!-- Button : ADD -->
-                                                        <a id="add_{{ role.id }}" class="btn-floating col s3"><i class="material-icons left">add</i></a>
+                                                        <div class="col s3">
+                                                                <a id="add_{{ role.id }}" class="btn-floating" style="background-color:{{ role.getFactionColor }}">
+                                                                        <i class="material-icons left">add</i>
+                                                                </a>
+                                                        </div>
                                                 
                                                         <!-- white space -->
                                                         <div class="col s1"></div>
@@ -107,17 +115,32 @@
                                 {% endfor %}
                         </div>
 
+                        <div class="container row center">
+                                <!-- Button : Reset -->
+                                <div class="col s6">
+                                        <a id="reset" class="waves-effect btn-large smallZoom" style="background-color: rgb(123, 27, 36)">
+                                                <i class="material-icons left">clear_all</i>
+                                                Réinitialiser
+                                        </a>
+                                </div>
 
-                        <!-- Button : Reset -->
-                        <div class="input-field">
-                                <input id="reset" type="reset" class="center">
+                                <!-- Save -->
+                                <div class="col s6" style="text-align: center;">
+                                        <button class="btn-large smallZoom" type="submit">
+                                                <i class="material-icons left">save</i>
+                                                Sauvegarder
+                                        </button>
+                                </div>
                         </div>
-                        <!-- Submit -->
-                        <div style="text-align: center;">
-                                <button class="btn-large smallZoom" type="submit">
-                                        Envoyer !
-                                        <i class="material-icons right">send</i>
-                                </button>
+
+                        <br><br>
+
+                        <!-- Button : Begin -->
+                        <div class="container center">
+                                <a id="launch" class="waves-effect btn-large smallZoom pulse" style="background-color: rgb(123, 27, 36)">
+                                        <i class="material-icons left">send</i>
+                                        Lancer la Partie !
+                                </a>
                         </div>
                 </form>
 
@@ -176,6 +199,15 @@
                                                 if(previousVal != input.value) {
                                                         $("#cpt-roles").text(Number($("#cpt-roles").text()) - 1);
                                                         $("#cpt-faction-".concat(role.idFaction)).text(Number($("#cpt-faction-".concat(role.idFaction)).text()) - 1);
+                                                
+                                                        // If one was removed, it means we can ADD
+                                                        $("#add_".concat(role.id)).show();
+
+                                                        // We check if we still can REMOVE
+                                                        if(input.value == 0)
+                                                        {
+                                                                $("#remove_".concat(role.id)).hide();
+                                                        }
                                                 }
                                         });
 
@@ -193,8 +225,28 @@
                                                 if(previousVal != input.value) {
                                                         $("#cpt-roles").text(Number($("#cpt-roles").text()) + 1);
                                                         $("#cpt-faction-".concat(role.idFaction)).text(Number($("#cpt-faction-".concat(role.idFaction)).text()) + 1);
+                                                
+                                                        // If one was added, it means we can REMOVE
+                                                        $("#remove_".concat(role.id)).show();
+
+                                                        // We check if we still can ADD
+                                                        if(getInput(role).value == getInput(role).max)
+                                                        {
+                                                                $("#add_".concat(role.id)).hide();
+                                                        }
                                                 }
                                         });
+
+                                        // We initialize the buttons accordingly
+                                        // By default, they are shown, so we just check if they should be hidden
+                                        if(getInput(role).value == 0)
+                                        {
+                                                $("#remove_".concat(role.id)).hide();
+                                        }
+                                        if(getInput(role).value == getInput(role).max)
+                                        {
+                                                $("#add_".concat(role.id)).hide();
+                                        }
                                 });
                                 
                                 // We initialize the reset button : sets the factions' counters to 0 when clicked
@@ -206,6 +258,18 @@
                                         for (i = 1; i <= 3; i++) {
                                                 document.getElementById("cpt-faction-".concat(i.toString())).innerHTML = 0;
                                         }
+
+                                        // We reset all the role's input counters and buttons
+                                        roles.forEach(role => {
+                                                input = getInput(role);
+                                                input.value = 0;
+
+                                                // We can't REMOVE
+                                                $("#remove_".concat(role.id)).hide();
+
+                                                // We can ADD
+                                                $("#add_".concat(role.id)).show();
+                                        });
                                 });
                         });
 
@@ -217,5 +281,23 @@
                                 return document.getElementById( "input_".concat(role.id) );
                         }
                 }
+
+
+                function myFunction() {
+                        var x = document.getElementById("myDIV");
+                        if (x.style.display === "none") {
+                                x.style.display = "block";
+                        } else {
+                                x.style.display = "none";
+                        }
+                }
+
+                /*
+                onbeforeunload = function() {
+                        if(true) {
+                                return 'Vous avez des données modifiées mais non sauvegardées : voulez-vous quitter cette page ?';
+                        }
+                };
+                */
         </script>
 {% endblock %}
