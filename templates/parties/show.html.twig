@@ -59,7 +59,7 @@
                                 {% for role in roles %}
                                         <div class="col s4 m3 l2">
                                                 <!-- Picture -->
-                                                <a class="modal-trigger center" href="#modal_{{ role.name }}">
+                                                <a class="modal-trigger center" href="#modal_{{ role.id }}">
                                                         <img class="circle responsive-img smallZoom" src="../{{ role.imagePath }}" alt="{{ role.name }}"  style="border-style: solid;border-color:{{ role.getFactionColor }}">
                                                 </a>
                                                 
@@ -105,7 +105,7 @@
 
 
                                                 <!-- Modal : hidden content (display when the image is clicked) -->
-                                                <div id="modal_{{ role.name }}" class="modal">
+                                                <div id="modal_{{ role.id }}" class="modal">
                                                         <div class="modal-content">
                                                                 <h4  style="color: {{ role.getFactionColor }}">{{ role.name }}</h4>
                                                                 <p class="flow-text">{{ role.description | raw }}</p>
@@ -147,7 +147,7 @@
                 <br><br>
         {% else %}
             <!-- Modal Structure : is activated when a non-logged in user wants to access / create a game -->
-                <div id="modal" class="modal">
+                <div id="modal-not-logged" class="modal">
                         <div class="modal-content">
                                 <h4>Vous n'êtes pas connecté !</h4>
                                 <p>Vous devez vous connecter / créer un compte afin de pouvoir rejoindre une partie !</p>
@@ -171,7 +171,7 @@
                         // Modal displaying the error
                         $(document).ready(function() {
                                 $('.modal').modal();
-                                $('#modal').modal('open'); 
+                                $('#modal-not-logged').modal('open'); 
                         }); 
                 }
                 // The player is logged :
@@ -181,10 +181,13 @@
                         // Array containing all the Roles' data
                         var roles = {{ roleArray|json_encode|raw }};
 
-
+                        // We initialize stuff :) (LOT'S OF STUFF)
                         $(document).ready(function() {
-
+                                // For each role
                                 roles.forEach(role => {
+                                        // We initialize the modal containing additional data about the role
+                                        $("#modal_".concat(role.id)).modal();
+
                                         // We get the associated REMOVE button
                                         $("#remove_".concat(role.id)).click(function() {
                                                 // We get the corresponding input field
