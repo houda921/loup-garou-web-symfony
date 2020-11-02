@@ -6,6 +6,12 @@ After a group project in the first semester of 2019, I made a website using the 
 This aims to be a web-version to learn about the Loup-Garou game, and perhaps, to host games (PHP isn't the best language for that, so I'll work that out).
 
 
+## The website
+
+I'll keep here all the links where the website is active
+* [Heroku](loup-garou-web.herokuapp.com)
+
+
 ## Authors
 
 It was made by the following people :
