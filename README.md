@@ -19,4 +19,4 @@ It was made by the following people :
 
 See also the list of [contributors](https://github.com/opsilonn/loup-garou-web-symfony/graphs/contributors) who participated in this project.
 
-![name-of-you-image](https://www.pokepedia.fr/images/5/56/Tiplouf-Pt.png)
+![name-of-you-image](https://github.com/opsilonn/loup-garou-web-symfony/blob/master/source.jpg)
