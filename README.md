@@ -18,3 +18,5 @@ It was made by the following people :
 * **BEGEOT Hugues** - [his Git repository](https://github.com/opsilonn)
 
 See also the list of [contributors](https://github.com/opsilonn/loup-garou-web-symfony/graphs/contributors) who participated in this project.
+
+![name-of-you-image](https://www.pokepedia.fr/images/5/56/Tiplouf-Pt.png)
